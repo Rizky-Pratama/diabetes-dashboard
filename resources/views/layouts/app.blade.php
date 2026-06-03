@@ -8,7 +8,7 @@
     <title>{{ $title ?? config('app.name') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @stack('head')
     @livewireStyles
 </head>
 
@@ -133,7 +133,7 @@
             {{ $slot }}
         @endif
     </main>
-
+    @stack('scripts')
     @livewireScripts
 </body>
 

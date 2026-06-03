@@ -30,12 +30,16 @@
                         <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div>
+                @push('scripts')
+                    @vite('resources/js/pages/article.js')
+                @endpush
+                <div x-data="quillEditor(@entangle('content').live)">
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Konten</label>
-                    <textarea wire:model.live="content" rows="8"
-                        class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
-                        placeholder="Tulis isi artikel"></textarea>
+
+                    <div wire:ignore>
+                        <div x-ref="editor" class="min-h-48 bg-white"></div>
+                    </div>
+
                     @error('content')
                         <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
                     @enderror
@@ -84,7 +88,8 @@
             <div class="flex items-center justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-semibold text-slate-900">Daftar Artikel</h3>
-                    <p class="text-sm text-slate-500">Gunakan card untuk mobile dan tabel sederhana untuk desktop.</p>
+                    <p class="text-sm text-slate-500">Gunakan card untuk mobile dan tabel sederhana untuk desktop.
+                    </p>
                 </div>
                 <span
                     class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{{ $articles->count() }}

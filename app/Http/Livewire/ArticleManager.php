@@ -114,7 +114,7 @@ class ArticleManager extends Component
         session()->flash('status', 'Artikel dihapus.');
     }
 
-    protected function resetForm()
+    public function resetForm()
     {
         $this->editingId = null;
         $this->title = null;

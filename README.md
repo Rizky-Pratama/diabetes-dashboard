@@ -1,58 +1,345 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<img src="public/logo.png" alt="DiabPredict Logo" width="180">
 
-## About Laravel
+# DiabPredict
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Sistem Prediksi Risiko Diabetes Berbasis Website Menggunakan Logistic Regression
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![Laravel](https://img.shields.io/badge/Laravel-13-red)
+![PHP](https://img.shields.io/badge/PHP-8.3-blue)
+![Python](https://img.shields.io/badge/Python-3.12-yellow)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+A web-based diabetes risk prediction system that helps users identify potential diabetes risks early using a Logistic Regression machine learning model. The system also provides educational content and prediction history to support public health awareness.
 
-## Learning Laravel
+</div>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📖 Overview
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Diabetes mellitus is one of the most common chronic diseases worldwide. Early detection can help reduce complications and improve quality of life.
 
-## Agentic Development
+**DiabPredict** is a web application developed to:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- Predict diabetes risk based on user health data.
+- Provide early screening support.
+- Present prediction results in an easy-to-understand format.
+- Store prediction history for future reference.
+- Deliver educational information about diabetes prevention.
 
-```bash
-composer require laravel/boost --dev
+This project was developed as part of an undergraduate thesis in Informatics Engineering.
 
-php artisan boost:install
+---
+
+## ✨ Features
+
+### Public Features
+
+- Home Page
+- Diabetes Education
+- Diabetes Risk Prediction
+- Prediction Result Visualization
+- Responsive User Interface
+
+### User Features
+
+- Authentication
+- Personal Dashboard
+- Prediction History
+- Profile Management
+
+### Admin Features
+
+- Dashboard Analytics
+- User Management
+- Prediction Data Monitoring
+- Educational Content Management
+- System Statistics
+
+---
+
+## 🏗 System Architecture
+
+```text
+┌─────────────┐
+│   Browser   │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Laravel 13  │
+│ Web System  │
+└──────┬──────┘
+       │ REST API
+       ▼
+┌─────────────┐
+│ Python API  │
+│ Logistic    │
+│ Regression  │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ ML Model    │
+│ Diabetes    │
+│ Prediction  │
+└─────────────┘
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 🧠 Machine Learning Model
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The prediction engine uses:
 
-## Code of Conduct
+- Logistic Regression
+- StandardScaler
+- Scikit-Learn Pipeline
+- Binary Classification
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Input Features
 
-## Security Vulnerabilities
+| Feature | Description |
+|----------|------------|
+| Glucose | Blood glucose level |
+| BloodPressure | Blood pressure |
+| Insulin | Insulin level |
+| BMI | Body Mass Index |
+| Age | Age |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Output
 
-## License
+| Result | Description |
+|----------|------------|
+| Low Risk | Lower possibility of diabetes |
+| High Risk | Higher possibility of diabetes |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🛠 Tech Stack
+
+### Backend
+
+- Laravel 13
+- PHP 8.3
+- MySQL
+
+### Frontend
+
+- Blade
+- Tailwind CSS 4
+- Livewire 4
+
+### Machine Learning
+
+- Python
+- Pandas
+- NumPy
+- Scikit-Learn
+- Joblib
+
+---
+
+## 📂 Project Structure
+
+```text
+diabpredict/
+│
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+├── public/
+│   └── logo.png
+├── resources/
+│   ├── views/
+│   ├── css/
+│   └── js/
+├── routes/
+├── storage/
+│
+├── python-api/
+│   ├── model/
+│   ├── training/
+│   ├── app.py
+│   └── requirements.txt
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/username/diabpredict.git
+cd diabpredict
+```
+
+### Install Dependencies
+
+```bash
+composer install
+```
+
+```bash
+npm install
+```
+
+### Environment Configuration
+
+```bash
+cp .env.example .env
+```
+
+Generate application key:
+
+```bash
+php artisan key:generate
+```
+
+Configure database in:
+
+```env
+DB_DATABASE=diabpredict
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### Run Migration
+
+```bash
+php artisan migrate
+```
+
+### Run Frontend
+
+```bash
+npm run dev
+```
+
+### Start Laravel Server
+
+```bash
+php artisan serve
+```
+
+---
+
+## 🤖 Python API Setup
+
+Navigate to Python service:
+
+```bash
+cd python-api
+```
+
+Create virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate environment:
+
+```bash
+venv\Scripts\activate
+```
+
+Install requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run API:
+
+```bash
+python app.py
+```
+
+---
+
+## 📊 Dataset
+
+The machine learning model was trained using diabetes-related health indicators including:
+
+- Glucose
+- Blood Pressure
+- Insulin
+- BMI
+- Age
+
+Dataset source:
+
+- Pima Indians Diabetes Dataset
+- Additional clinical data (if available)
+
+---
+
+## 🔐 Security
+
+- CSRF Protection
+- Input Validation
+- Authentication & Authorization
+- Password Hashing
+- Rate Limiting
+
+---
+
+## 🚀 Future Improvements
+
+- Multi-class prediction (Normal, Prediabetes, Diabetes)
+- Model comparison dashboard
+- Explainable AI (XAI)
+- PDF report generation
+- Mobile application integration
+
+---
+
+<!-- ## 📸 Screenshots
+
+### Landing Page
+
+> Add screenshot here
+
+### Prediction Page
+
+> Add screenshot here
+
+### Dashboard
+
+> Add screenshot here
+
+--- -->
+
+## 👨‍🎓 Author
+
+**Muhammad Rizky Pratama**
+
+Informatics Engineering Student
+
+Universitas Indraprasta PGRI
+
+---
+
+## 📄 License
+
+This project is developed for educational and research purposes.
+
+MIT License
+
+---
+
+## ⭐ Support
+
+If you find this project useful, please consider giving it a star on GitHub.
+
+```
+⭐ Star this repository if it helps you!
+```

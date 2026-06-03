@@ -7,44 +7,32 @@ use App\Models\User;
 
 class ArticlePolicy
 {
-  public function viewAny(?User $user)
-  {
-    return true; // anyone can view published via component logic
-  }
-
-  public function view(?User $user, Article $article)
-  {
-    if ($article->status === 'published') {
-      return true;
+    public function viewAny(?User $user): bool
+    {
+        return true;
     }
 
-    if (! $user) {
-      return false;
+    public function view(?User $user, Article $article): bool
+    {
+        if ($article->status === 'published') {
+            return true;
+        }
+
+        return $user?->role === 'admin';
     }
 
-    return $user->role === 'admin' || ($user->role === 'petugas' && $user->clinic_id === $article->clinic_id);
-  }
-
-  public function create(User $user)
-  {
-    return in_array($user->role, ['admin', 'petugas']);
-  }
-
-  public function update(User $user, Article $article)
-  {
-    if ($user->role === 'admin') {
-      return true;
+    public function create(User $user): bool
+    {
+        return $user->role === 'admin';
     }
 
-    if ($user->role === 'petugas') {
-      return $user->clinic_id === $article->clinic_id;
+    public function update(User $user, Article $article): bool
+    {
+        return $user->role === 'admin';
     }
 
-    return false;
-  }
-
-  public function delete(User $user, Article $article)
-  {
-    return $this->update($user, $article);
-  }
+    public function delete(User $user, Article $article): bool
+    {
+        return $this->update($user, $article);
+    }
 }

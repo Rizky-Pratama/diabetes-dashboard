@@ -28,9 +28,4 @@ class Clinic extends Model
     {
         return $this->hasMany(PredictionHistory::class);
     }
-
-    public function articles()
-    {
-        return $this->hasMany(Article::class);
-    }
 }

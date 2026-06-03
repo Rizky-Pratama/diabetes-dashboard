@@ -12,16 +12,10 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'clinic_id',
         'title',
         'slug',
         'content',
         'thumbnail',
         'status',
     ];
-
-    public function clinic()
-    {
-        return $this->belongsTo(Clinic::class);
-    }
 }

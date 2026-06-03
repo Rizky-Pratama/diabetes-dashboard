@@ -18,7 +18,6 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'clinic_id' => null,
             'title' => $this->faker->sentence(),
             'slug' => $this->faker->slug(),
             'content' => $this->faker->paragraphs(4, true),

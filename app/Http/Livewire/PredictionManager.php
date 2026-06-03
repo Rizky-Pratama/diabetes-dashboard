@@ -6,9 +6,12 @@ use App\Models\PredictionHistory;
 use App\Services\PythonPredictionClient;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
-class PredictionForm extends Component
+class PredictionManager extends Component
 {
+    use WithPagination;
+
     public $glucose;
 
     public $blood_pressure;
@@ -20,6 +23,8 @@ class PredictionForm extends Component
     public $age;
 
     public $loading = false;
+
+    public int $perPage = 10;
 
     protected $rules = [
         'glucose' => 'required|numeric|min:0',
@@ -48,7 +53,7 @@ class PredictionForm extends Component
 
             $user = Auth::user();
 
-            $history = PredictionHistory::create([
+            PredictionHistory::create([
                 'clinic_id' => $user->clinic_id ?? null,
                 'user_id' => $user->id ?? null,
                 'glucose' => $this->glucose,
@@ -57,10 +62,10 @@ class PredictionForm extends Component
                 'bmi' => $this->bmi,
                 'age' => $this->age,
                 'probability' => $response['probability'] ?? null,
-                'result' => $response['result'] ?? null,
+                'result' => $response['risk_label'] ?? null,
             ]);
 
-            $this->dispatch('predictionSaved', historyId: $history->id);
+            $this->reset(['glucose', 'blood_pressure', 'insulin', 'bmi', 'age']);
             session()->flash('status', 'Prediksi berhasil disimpan.');
         } finally {
             $this->loading = false;
@@ -69,6 +74,18 @@ class PredictionForm extends Component
 
     public function render()
     {
-        return view('livewire.prediction-form');
+        $user = Auth::user();
+
+        if ($user && $user->role === 'admin') {
+            $query = PredictionHistory::latest();
+        } elseif ($user && $user->role === 'petugas') {
+            $query = PredictionHistory::where('clinic_id', $user->clinic_id)->latest();
+        } else {
+            $query = PredictionHistory::where('user_id', $user->id ?? 0)->latest();
+        }
+
+        $histories = $query->paginate($this->perPage);
+
+        return view('livewire.prediction-manager', compact('histories'));
     }
 }

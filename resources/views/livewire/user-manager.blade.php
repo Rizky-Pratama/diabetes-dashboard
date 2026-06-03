@@ -72,7 +72,7 @@
                     @enderror
                 </div>
 
-                <div>
+                <div wire:show="role === 'petugas'">
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Klinik</label>
                     <select wire:model.live="clinic_id"
                         class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100">

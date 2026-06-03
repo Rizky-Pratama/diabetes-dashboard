@@ -9,9 +9,6 @@
                 simpan hasil prediksi ke riwayat secara otomatis.</p>
         </section>
 
-        <div class="grid gap-6 xl:grid-cols-2">
-            @livewire(\App\Http\Livewire\PredictionForm::class)
-            @livewire(\App\Http\Livewire\PredictionHistoryList::class)
-        </div>
+        @livewire(\App\Http\Livewire\PredictionManager::class)
     </div>
 @endsection

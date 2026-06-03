@@ -31,6 +31,8 @@
                         <a href="{{ route('articles.index') }}" wire:navigate
                             class="rounded-full px-4 py-2 text-sm font-medium {{ request()->routeIs('articles.index') ? 'bg-sky-100 text-sky-900' : 'text-slate-600 hover:bg-slate-100' }}">Artikel</a>
                         @if (auth()->user()->role === 'admin')
+                            <a href="{{ route('education.index') }}" wire:navigate
+                                class="rounded-full px-4 py-2 text-sm font-medium {{ request()->routeIs('education.index') ? 'bg-sky-100 text-sky-900' : 'text-slate-600 hover:bg-slate-100' }}">Edukasi</a>
                             <a href="{{ route('clinics.index') }}" wire:navigate
                                 class="rounded-full px-4 py-2 text-sm font-medium {{ request()->routeIs('clinics.index') ? 'bg-sky-100 text-sky-900' : 'text-slate-600 hover:bg-slate-100' }}">Klinik</a>
                             <a href="{{ route('users.index') }}" wire:navigate
@@ -102,6 +104,8 @@
                     <a href="{{ route('articles.index') }}" wire:navigate @click="open = false"
                         class="block rounded-xl px-4 py-2.5 text-base font-semibold {{ request()->routeIs('articles.index') ? 'bg-sky-50 text-sky-900' : 'text-slate-600 hover:bg-slate-50' }}">Artikel</a>
                     @if (auth()->user()->role === 'admin')
+                        <a href="{{ route('education.index') }}" wire:navigate @click="open = false"
+                            class="block rounded-xl px-4 py-2.5 text-base font-semibold {{ request()->routeIs('education.index') ? 'bg-sky-50 text-sky-900' : 'text-slate-600 hover:bg-slate-50' }}">Edukasi</a>
                         <a href="{{ route('clinics.index') }}" wire:navigate @click="open = false"
                             class="block rounded-xl px-4 py-2.5 text-base font-semibold {{ request()->routeIs('clinics.index') ? 'bg-sky-50 text-sky-900' : 'text-slate-600 hover:bg-slate-50' }}">Klinik</a>
                         <a href="{{ route('users.index') }}" wire:navigate @click="open = false"

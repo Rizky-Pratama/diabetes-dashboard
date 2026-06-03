@@ -17,7 +17,51 @@
                     {{ session('status') }}</div>
             @endif
 
+            @if ($lastPredictionResult)
+                <div class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hasil Prediksi
+                            </div>
+                            <div class="mt-1 text-xl font-semibold text-slate-900">
+                                {{ match ($lastPredictionResult) {
+                                    'diabetes' => 'Diabetes',
+                                    'prediabetes' => 'Prediabetes',
+                                    default => 'Normal',
+                                } }}
+                            </div>
+                        </div>
+
+                        <span
+                            class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $lastPredictionResult === 'diabetes' ? 'bg-rose-50 text-rose-700' : ($lastPredictionResult === 'prediabetes' ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700') }}">Edukasi
+                            otomatis</span>
+                    </div>
+
+                    @if ($lastEducation)
+                        <div class="mt-4 border-t border-slate-200 pt-4">
+                            <div class="text-sm font-semibold text-slate-900">{{ $lastEducation['title'] }}</div>
+                            <div class="mt-2 text-sm leading-6 text-slate-600">{!! nl2br(e(strip_tags($lastEducation['content']))) !!}</div>
+                        </div>
+                    @else
+                        <div class="mt-4 border-t border-slate-200 pt-4 text-sm text-slate-500">Belum ada edukasi
+                            published untuk hasil ini.</div>
+                    @endif
+                </div>
+            @endif
+
             <form wire:submit.prevent="submit" class="mt-6 grid gap-4 md:grid-cols-2">
+                @if (auth()->user()?->role === 'petugas')
+                    <div class="md:col-span-2">
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">Nama Pasien</label>
+                        <input wire:model.live="patient_name" type="text"
+                            class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
+                            placeholder="Contoh: Budi Santoso" />
+                        @error('patient_name')
+                            <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
+
                 <div>
                     <label class="mb-2 block text-sm font-semibold text-slate-700">Glucose</label>
                     <input wire:model.live="glucose" type="number" step="any"
@@ -103,6 +147,7 @@
                 <thead class="bg-slate-50 text-left text-slate-500">
                     <tr>
                         <th class="px-4 py-3 font-semibold">Tanggal</th>
+                        <th class="px-4 py-3 font-semibold">Pasien / Pengguna</th>
                         <th class="px-4 py-3 font-semibold">Hasil</th>
                         <th class="px-4 py-3 font-semibold">Kemungkinan Risiko</th>
                         <th class="px-4 py-3 font-semibold">Usia</th>
@@ -112,9 +157,16 @@
                     @foreach ($histories as $history)
                         <tr wire:key="history-{{ $history->id }}">
                             <td class="px-4 py-3 text-slate-600">{{ $history->created_at->format('d M Y, H:i') }}</td>
+                            <td class="px-4 py-3 text-slate-600">
+                                <div class="font-semibold text-slate-800">
+                                    {{ $history->patient_name ?? $history->user?->name ?? 'Pengguna' }}</div>
+                                @if ($history->inputBy)
+                                    <div class="text-xs text-slate-500">Input oleh {{ $history->inputBy->name }}</div>
+                                @endif
+                            </td>
                             <td class="px-4 py-3">
-                                <span
-                                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result === 'Risiko Diabetes' ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700' }}">{{ $history->result ?? 'N/A' }}</span>
+                                <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result_badge_classes }}">
+                                    {{ $history->result_label }}</span>
                             </td>
                             <td class="px-4 py-3 text-slate-600">
                                 {{ number_format((float) $history->probability * 100, 0) }}%</td>
@@ -130,9 +182,13 @@
                 <div wire:key="history-card-{{ $history->id }}" class="rounded-2xl border border-slate-200 p-4">
                     <div class="text-sm font-semibold text-slate-900">{{ $history->created_at->format('d M Y, H:i') }}
                     </div>
-                    <div
-                        class="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result === 'Risiko Diabetes' ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700' }}">
-                        {{ $history->result ?? 'N/A' }}</div>
+                    <div class="mt-1 text-sm text-slate-600">
+                        {{ $history->patient_name ?? $history->user?->name ?? 'Pengguna' }}</div>
+                    @if ($history->inputBy)
+                        <div class="mt-1 text-xs text-slate-500">Input oleh {{ $history->inputBy->name }}</div>
+                    @endif
+                    <div class="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result_badge_classes }}">
+                        {{ $history->result_label }}</div>
                     <div class="mt-3 text-sm text-slate-600">Kemungkinan Risiko:
                         {{ number_format((float) $history->probability * 100, 0) }}%</div>
                     <div class="mt-1 text-sm text-slate-600">Usia: {{ $history->age ?? '-' }}</div>

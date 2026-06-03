@@ -21,18 +21,22 @@
         </div>
     </section>
 
-    <section class="grid gap-4 sm:grid-cols-3">
+    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
             <div class="text-sm text-slate-500">Total Prediksi Klinik</div>
             <div class="mt-2 text-3xl font-semibold text-slate-900">{{ $data['predictions'] }}</div>
         </div>
         <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
-            <div class="text-sm text-rose-600">Risiko Diabetes</div>
-            <div class="mt-2 text-3xl font-semibold text-rose-700">{{ $data['risk_count'] }}</div>
+            <div class="text-sm text-rose-600">Diabetes</div>
+            <div class="mt-2 text-3xl font-semibold text-rose-700">{{ $data['diabetes_count'] }}</div>
         </div>
         <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
-            <div class="text-sm text-emerald-600">Tidak Berisiko</div>
-            <div class="mt-2 text-3xl font-semibold text-emerald-700">{{ $data['safe_count'] }}</div>
+            <div class="text-sm text-amber-600">Prediabetes</div>
+            <div class="mt-2 text-3xl font-semibold text-amber-700">{{ $data['prediabetes_count'] }}</div>
+        </div>
+        <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/70">
+            <div class="text-sm text-emerald-600">Normal</div>
+            <div class="mt-2 text-3xl font-semibold text-emerald-700">{{ $data['normal_count'] }}</div>
         </div>
     </section>
 
@@ -52,13 +56,16 @@
                 <div class="rounded-2xl border border-slate-200 p-4">
                     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <div class="text-sm font-semibold text-slate-900">{{ $history->user?->name ?? 'Pengguna' }}
-                            </div>
+                            <div class="text-sm font-semibold text-slate-900">
+                                {{ $history->patient_name ?? $history->user?->name ?? 'Pengguna' }}</div>
+                            @if ($history->inputBy)
+                                <div class="text-xs text-slate-500">Input oleh {{ $history->inputBy->name }}</div>
+                            @endif
                             <div class="text-xs text-slate-500">{{ $history->created_at->format('d M Y, H:i') }}</div>
                         </div>
                         <div class="flex flex-wrap gap-2 text-xs font-semibold">
-                            <span
-                                class="rounded-full {{ $history->result === 'Risiko Diabetes' ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700' }} px-3 py-1">{{ $history->result }}</span>
+                            <span class="rounded-full {{ $history->result_badge_classes }} px-3 py-1">
+                                {{ $history->result_label }}</span>
                             <span class="rounded-full bg-slate-100 px-3 py-1 text-slate-700">Kemungkinan Risiko:
                                 {{ number_format((float) $history->probability * 100, 0) }}%</span>
                         </div>

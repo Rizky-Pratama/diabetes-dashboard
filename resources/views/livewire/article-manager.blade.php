@@ -4,8 +4,8 @@
             <div>
                 <p class="text-sm uppercase tracking-[0.25em] text-slate-500">Modul Artikel Edukasi</p>
                 <h2 class="mt-1 text-2xl font-semibold text-slate-900">Kelola artikel dengan tampilan sederhana</h2>
-                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Tambah, ubah, atau hapus artikel edukasi.
-                    Admin dapat mengelola semua artikel, petugas hanya untuk kliniknya.</p>
+                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Artikel edukasi bersifat global dan dapat
+                    dibaca semua role. Pengelolaan artikel hanya tersedia untuk admin.</p>
             </div>
             <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">{{ $articles->total() }}
                 artikel</span>
@@ -18,73 +18,76 @@
     </section>
 
     <section class="grid gap-6 xl:grid-cols-5">
-        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 xl:col-span-2">
-            <h3 class="text-lg font-semibold text-slate-900">{{ $editingId ? 'Ubah Artikel' : 'Artikel Baru' }}</h3>
-            <div class="mt-4 space-y-4">
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Judul</label>
-                    <input wire:model.live="title" type="text"
-                        class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
-                        placeholder="Masukkan judul artikel" />
-                    @error('title')
-                        <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
-                    @enderror
-                </div>
-                @push('scripts')
-                    @vite('resources/js/pages/article.js')
-                @endpush
-                <div x-data="quillEditor(@entangle('content').live)">
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Konten</label>
+        @if ($canManageArticles)
+            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 xl:col-span-2">
+                <h3 class="text-lg font-semibold text-slate-900">{{ $editingId ? 'Ubah Artikel' : 'Artikel Baru' }}</h3>
+                <div class="mt-4 space-y-4">
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">Judul</label>
+                        <input wire:model.live="title" type="text"
+                            class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
+                            placeholder="Masukkan judul artikel" />
+                        @error('title')
+                            <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    @push('scripts')
+                        @vite('resources/js/pages/article.js')
+                    @endpush
+                    <div x-data="quillEditor(@entangle('content').live)">
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">Konten</label>
 
-                    <div wire:ignore>
-                        <div x-ref="editor" class="min-h-48 bg-white"></div>
+                        <div wire:ignore>
+                            <div x-ref="editor" class="min-h-48 bg-white"></div>
+                        </div>
+
+                        @error('content')
+                            <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    @error('content')
-                        <div class="mt-1 text-sm text-rose-600">{{ $message }}</div>
-                    @enderror
-                </div>
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">Thumbnail</label>
+                        <input wire:model="thumbnailFile" type="file" accept="image/*"
+                            class="w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100" />
+                        @if ($thumbnailFile)
+                            <img src="{{ $thumbnailFile->temporaryUrl() }}" alt="Pratinjau thumbnail"
+                                class="mt-3 h-32 w-full rounded-2xl border border-slate-200 object-cover" />
+                        @elseif ($thumbnail)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($thumbnail) }}"
+                                alt="Thumbnail artikel"
+                                class="mt-3 h-32 w-full rounded-2xl border border-slate-200 object-cover" />
+                        @endif
+                    </div>
 
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Thumbnail</label>
-                    <input wire:model="thumbnailFile" type="file" accept="image/*"
-                        class="w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100" />
-                    @if ($thumbnailFile)
-                        <img src="{{ $thumbnailFile->temporaryUrl() }}" alt="Pratinjau thumbnail"
-                            class="mt-3 h-32 w-full rounded-2xl border border-slate-200 object-cover" />
-                    @elseif ($thumbnail)
-                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($thumbnail) }}"
-                            alt="Thumbnail artikel"
-                            class="mt-3 h-32 w-full rounded-2xl border border-slate-200 object-cover" />
-                    @endif
-                </div>
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-slate-700">Status</label>
+                        <select wire:model.live="status"
+                            class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Status</label>
-                    <select wire:model.live="status"
-                        class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100">
-                        <option value="draft">Draft</option>
-                        <option value="published">Published</option>
-                    </select>
-                </div>
-
-                <div class="flex flex-wrap gap-3 pt-2">
-                    @if ($editingId)
-                        <button type="button" wire:click="updateArticle"
-                            class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Simpan
-                            Perubahan</button>
-                        <button type="button" wire:click="resetForm"
-                            class="rounded-full bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">Batal</button>
-                    @else
-                        <button type="button" wire:click="createArticle"
-                            class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Simpan
-                            Artikel</button>
-                    @endif
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        @if ($editingId)
+                            <button type="button" wire:click="updateArticle"
+                                class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Simpan
+                                Perubahan</button>
+                            <button type="button" wire:click="resetForm"
+                                class="rounded-full bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">Batal</button>
+                        @else
+                            <button type="button" wire:click="createArticle"
+                                class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Simpan
+                                Artikel</button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
 
-        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 xl:col-span-3">
+        <div
+            class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 {{ $canManageArticles ? 'xl:col-span-3' : 'xl:col-span-5' }}">
             <div class="flex items-center justify-between gap-3">
                 <div>
                     <h3 class="text-lg font-semibold text-slate-900">Daftar Artikel</h3>

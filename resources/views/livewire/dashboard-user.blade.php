@@ -27,16 +27,21 @@
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <div class="text-sm text-slate-500">Hasil Prediksi</div>
-                            <div class="text-2xl font-semibold text-slate-900">{{ $last->result }}</div>
+                            <div class="text-2xl font-semibold text-slate-900">{{ $last->result_label }}</div>
                             <div class="mt-1 text-sm text-slate-500">{{ $last->created_at->format('d M Y, H:i') }}</div>
                         </div>
-                        <div
-                            class="rounded-2xl {{ $last->result === 'Risiko Diabetes' ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700' }} px-4 py-3 text-center">
+                        <div class="rounded-2xl {{ $last->result_badge_classes }} px-4 py-3 text-center">
                             <div class="text-xs font-semibold uppercase tracking-[0.2em]">Kemungkinan Risiko</div>
                             <div class="text-3xl font-semibold">
                                 {{ number_format((float) $last->probability * 100, 0) }}%</div>
                         </div>
                     </div>
+                    @if ($education)
+                        <div class="mt-5 border-t border-slate-200 pt-4">
+                            <div class="text-sm font-semibold text-slate-900">{{ $education->title }}</div>
+                            <div class="mt-2 text-sm leading-6 text-slate-600">{!! nl2br(e(strip_tags($education->content))) !!}</div>
+                        </div>
+                    @endif
                 </div>
             @else
                 <div class="mt-4 rounded-2xl border border-dashed border-slate-300 p-6 text-sm text-slate-500">Belum ada
@@ -74,9 +79,8 @@
                 <div class="rounded-2xl border border-slate-200 p-4">
                     <div class="text-sm font-semibold text-slate-900">{{ $history->created_at->format('d M Y, H:i') }}
                     </div>
-                    <div
-                        class="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result === 'Risiko Diabetes' ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700' }}">
-                        {{ $history->result }}</div>
+                    <div class="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result_badge_classes }}">
+                        {{ $history->result_label }}</div>
                     <div class="mt-3 text-sm text-slate-500">Kemungkinan Risiko:
                         {{ number_format((float) $history->probability * 100, 0) }}%</div>
                 </div>

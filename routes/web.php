@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $articles = Article::where('status', 'published')
-        ->with('clinic')
         ->latest()
         ->limit(3)
         ->get();
@@ -38,6 +37,12 @@ Route::middleware(['auth'])->group(function () {
 
         return view('pages.users');
     })->name('users.index');
+
+    Route::get('/education', function () {
+        abort_unless(auth()->user()->role === 'admin', 403);
+
+        return view('pages.education');
+    })->name('education.index');
 });
 
 // Auth routes (simple controllers)

@@ -143,7 +143,7 @@
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <h2 class="text-3xl font-bold tracking-tight text-slate-900">Artikel Kesehatan Terbaru</h2>
-                <p class="mt-2 text-slate-600">Pelajari tips dan informasi tepercaya langsung dari klinik mitra kami.</p>
+                <p class="mt-2 text-slate-600">Pelajari tips dan informasi tepercaya dari konten edukasi kesehatan global.</p>
             </div>
             <a href="{{ route('articles.index') }}" wire:navigate class="group inline-flex items-center gap-1 text-sm font-semibold text-sky-600 transition-all hover:text-sky-500">
                 Lihat Semua Artikel
@@ -167,7 +167,7 @@
                             </div>
                         @endif
                         <span class="absolute right-3 top-3 rounded-full bg-white/90 backdrop-blur px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm">
-                            {{ $article->clinic->nama_klinik ?? 'DiaPredict' }}
+                            DiaPredict
                         </span>
                     </div>
                     <div class="flex flex-1 flex-col p-6">

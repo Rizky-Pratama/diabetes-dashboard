@@ -3,12 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Article;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
@@ -52,15 +51,12 @@ class ArticleManager extends Component
 
         $this->validate();
 
-        $user = Auth::user();
-
         $data = [
             'title' => $this->title,
-            'slug' => Str::slug($this->title) . '-' . time(),
+            'slug' => Str::slug($this->title).'-'.time(),
             'content' => $this->content,
             'thumbnail' => $this->storeThumbnail(),
             'status' => $this->status,
-            'clinic_id' => $user && $user->role === 'petugas' ? $user->clinic_id : null,
         ];
 
         Article::create($data);
@@ -72,7 +68,7 @@ class ArticleManager extends Component
     public function editArticle($id)
     {
         $article = Article::findOrFail($id);
-        if (Gate::denies('view', $article)) {
+        if (Gate::denies('update', $article)) {
             abort(403);
         }
         $this->editingId = $article->id;
@@ -93,7 +89,7 @@ class ArticleManager extends Component
         }
         $article->update([
             'title' => $this->title,
-            'slug' => Str::slug($this->title) . '-' . time(),
+            'slug' => Str::slug($this->title).'-'.time(),
             'content' => $this->content,
             'thumbnail' => $this->storeThumbnail($article->thumbnail),
             'status' => $this->status,
@@ -139,18 +135,16 @@ class ArticleManager extends Component
 
     public function render()
     {
-        $user = Auth::user();
+        $canManageArticles = auth()->user()?->can('create', Article::class) ?? false;
 
-        if ($user && $user->role === 'admin') {
+        if ($canManageArticles) {
             $query = Article::latest();
-        } elseif ($user && $user->role === 'petugas') {
-            $query = Article::where('clinic_id', $user->clinic_id)->latest();
         } else {
             $query = Article::where('status', 'published')->latest();
         }
 
         $articles = $query->paginate($this->perPage);
 
-        return view('livewire.article-manager', compact('articles'));
+        return view('livewire.article-manager', compact('articles', 'canManageArticles'));
     }
 }

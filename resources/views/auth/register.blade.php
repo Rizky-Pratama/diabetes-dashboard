@@ -42,7 +42,7 @@
                 <div class="flex items-center justify-between gap-3 pt-2">
                     <button
                         class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Register</button>
-                    <a href="{{ route('login') }}" class="text-sm font-semibold text-sky-700 hover:text-sky-900">Sudah punya
+                    <a href="{{ route('login') }}" wire:navigate class="text-sm font-semibold text-sky-700 hover:text-sky-900">Sudah punya
                         akun?</a>
                 </div>
             </form>

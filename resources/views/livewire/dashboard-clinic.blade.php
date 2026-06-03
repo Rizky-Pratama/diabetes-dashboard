@@ -2,9 +2,9 @@
     <section class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div class="flex items-center gap-4">
-                <div
-                    class="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-100 text-xl font-bold text-sky-800">
-                    {{ strtoupper(substr($data['clinic']->nama_klinik ?? 'K', 0, 1)) }}
+                <div class="flex h-16 w-16 items-center justify-center">
+                    <img src="{{ Storage::url($data['clinic']->logo ?? 'logo.png') }}" alt="Logo"
+                        class="h-full w-full object-cover" />
                 </div>
                 <div>
                     <p class="text-sm uppercase tracking-[0.25em] text-slate-500">Dashboard Petugas</p>
@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('prediction') }}"
+            <a href="{{ route('prediction') }}" wire:navigate
                 class="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Mulai
                 Prediksi</a>
         </div>

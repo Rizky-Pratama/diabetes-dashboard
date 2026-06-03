@@ -21,23 +21,23 @@
             </p>
             <div class="mt-10 flex flex-wrap justify-center gap-4">
                 @auth
-                    <a href="{{ route('prediction') }}" class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-400 hover:shadow-sky-500/20 active:scale-95">
+                    <a href="{{ route('prediction') }}" wire:navigate class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-400 hover:shadow-sky-500/20 active:scale-95">
                         Mulai Prediksi
                         <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
                     </a>
-                    <a href="{{ route('dashboard') }}" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95">
+                    <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95">
                         Lihat Dashboard
                     </a>
                 @else
-                    <a href="{{ route('register') }}" class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-400 hover:shadow-sky-500/20 active:scale-95">
+                    <a href="{{ route('register') }}" wire:navigate class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-400 hover:shadow-sky-500/20 active:scale-95">
                         Daftar Akun Gratis
                         <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
                     </a>
-                    <a href="{{ route('login') }}" class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95">
+                    <a href="{{ route('login') }}" wire:navigate class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95">
                         Masuk
                     </a>
                 @endauth
@@ -145,7 +145,7 @@
                 <h2 class="text-3xl font-bold tracking-tight text-slate-900">Artikel Kesehatan Terbaru</h2>
                 <p class="mt-2 text-slate-600">Pelajari tips dan informasi tepercaya langsung dari klinik mitra kami.</p>
             </div>
-            <a href="{{ route('articles.index') }}" class="group inline-flex items-center gap-1 text-sm font-semibold text-sky-600 transition-all hover:text-sky-500">
+            <a href="{{ route('articles.index') }}" wire:navigate class="group inline-flex items-center gap-1 text-sm font-semibold text-sky-600 transition-all hover:text-sky-500">
                 Lihat Semua Artikel
                 <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -241,11 +241,11 @@
             </p>
             <div class="mt-8 flex justify-center">
                 @auth
-                    <a href="{{ route('prediction') }}" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-950 shadow-sm transition hover:bg-slate-100 active:scale-95">
+                    <a href="{{ route('prediction') }}" wire:navigate class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-950 shadow-sm transition hover:bg-slate-100 active:scale-95">
                         Mulai Prediksi Sekarang
                     </a>
                 @else
-                    <a href="{{ route('register') }}" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-950 shadow-sm transition hover:bg-slate-100 active:scale-95">
+                    <a href="{{ route('register') }}" wire:navigate class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-950 shadow-sm transition hover:bg-slate-100 active:scale-95">
                         Daftar Gratis Sekarang
                     </a>
                 @endauth

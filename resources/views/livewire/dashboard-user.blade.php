@@ -9,7 +9,7 @@
             </div>
 
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('prediction') }}"
+                <a href="{{ route('prediction') }}" wire:navigate
                     class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Mulai
                     Prediksi</a>
                 <a href="#riwayat"

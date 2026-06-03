@@ -9,10 +9,10 @@
             </div>
 
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('clinics.index') }}"
+                <a href="{{ route('clinics.index') }}" wire:navigate
                     class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100">Kelola
                     Klinik</a>
-                <a href="{{ route('users.index') }}"
+                <a href="{{ route('users.index') }}" wire:navigate
                     class="rounded-full bg-sky-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-300">Kelola
                     Pengguna</a>
             </div>

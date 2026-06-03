@@ -31,7 +31,7 @@
                 <div class="flex items-center justify-between gap-3 pt-2">
                     <button
                         class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Login</button>
-                    <a href="{{ route('register') }}" class="text-sm font-semibold text-sky-700 hover:text-sky-900">Buat
+                    <a href="{{ route('register') }}" wire:navigate class="text-sm font-semibold text-sky-700 hover:text-sky-900">Buat
                         akun</a>
                 </div>
             </form>

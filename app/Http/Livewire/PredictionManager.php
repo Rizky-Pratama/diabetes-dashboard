@@ -6,6 +6,7 @@ use App\Models\EducationContent;
 use App\Models\PredictionHistory;
 use App\Services\PythonPredictionClient;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,6 +19,10 @@ class PredictionManager extends Component
     public $blood_pressure;
 
     public $insulin;
+
+    public $weight;
+
+    public $height;
 
     public $bmi;
 
@@ -46,10 +51,22 @@ class PredictionManager extends Component
             'glucose' => 'required|numeric|min:0',
             'blood_pressure' => 'required|numeric|min:0',
             'insulin' => 'required|numeric|min:0',
+            'weight' => 'required|numeric|min:0.1',
+            'height' => 'required|numeric|min:1',
             'bmi' => 'required|numeric|min:0',
             'age' => 'required|integer|min:0',
             'patient_name' => $patientNameRule,
         ];
+    }
+
+    public function updatedWeight(): void
+    {
+        $this->calculateBmi();
+    }
+
+    public function updatedHeight(): void
+    {
+        $this->calculateBmi();
     }
 
     public function submit(PythonPredictionClient $client)
@@ -95,11 +112,72 @@ class PredictionManager extends Component
             $this->lastPredictionResult = $result;
             $this->lastEducation = $education?->only(['title', 'content', 'result_type']);
 
-            $this->reset(['glucose', 'blood_pressure', 'insulin', 'bmi', 'age', 'patient_name']);
+            $this->reset(['glucose', 'blood_pressure', 'insulin', 'weight', 'height', 'bmi', 'age', 'patient_name']);
             session()->flash('status', 'Prediksi berhasil disimpan.');
         } finally {
             $this->loading = false;
         }
+    }
+
+    protected function calculateBmi(): void
+    {
+        $weight = (float) $this->weight;
+        $height = (float) $this->height;
+
+        if ($weight <= 0 || $height <= 0) {
+            $this->bmi = null;
+
+            return;
+        }
+
+        $heightInMeters = $height / 100;
+        $this->bmi = round($weight / ($heightInMeters ** 2), 1);
+    }
+
+    /**
+     * @return array{label: string, variant: string, description: string, marker: string}
+     */
+    #[Computed]
+    public function bmiCategory(): array
+    {
+        $bmi = is_numeric($this->bmi) ? (float) $this->bmi : 0.0;
+
+        if ($bmi <= 0) {
+            return [
+                'label' => 'Belum dihitung',
+                'variant' => 'neutral',
+                'description' => 'Isi berat dan tinggi badan untuk melihat BMI otomatis.',
+                'marker' => '0%',
+            ];
+        }
+
+        $category = match (true) {
+            $bmi < 18.5 => [
+                'label' => 'Berat kurang',
+                'variant' => 'warning',
+                'description' => 'BMI berada di bawah rentang normal.',
+            ],
+            $bmi < 25 => [
+                'label' => 'Normal',
+                'variant' => 'success',
+                'description' => 'BMI berada pada rentang normal.',
+            ],
+            $bmi < 30 => [
+                'label' => 'Berat berlebih',
+                'variant' => 'warning',
+                'description' => 'BMI berada di atas rentang normal.',
+            ],
+            default => [
+                'label' => 'Obesitas',
+                'variant' => 'danger',
+                'description' => 'BMI berada pada rentang obesitas.',
+            ],
+        };
+
+        return [
+            ...$category,
+            'marker' => min(100, max(4, ($bmi / 40) * 100)).'%',
+        ];
     }
 
     protected function normalizePredictionResult(?string $result): string

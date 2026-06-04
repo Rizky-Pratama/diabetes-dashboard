@@ -1,40 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto max-w-md">
-        <div class="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200/70">
+    <div class="mx-auto grid min-h-[calc(100vh-10rem)] max-w-5xl items-center gap-8 lg:grid-cols-2">
+        <section class="hidden lg:block">
+            <x-ui.badge variant="primary">
+                <x-icon name="solar:shield-check-line-duotone" size="1rem" />
+                DiaPredict Access
+            </x-ui.badge>
+            <h1 class="mt-5 text-4xl font-bold tracking-tight text-ink-900">Masuk ke dashboard kesehatan yang lebih rapi.</h1>
+            <p class="mt-4 max-w-md text-base leading-7 text-ink-500">
+                Pantau prediksi, artikel, edukasi, pengguna, dan klinik dalam pengalaman yang konsisten untuk semua role.
+            </p>
+        </section>
+
+        <x-ui.card padding="p-8">
             <div class="mb-6">
-                <p class="text-sm uppercase tracking-[0.25em] text-slate-500">Masuk</p>
-                <h1 class="mt-2 text-2xl font-semibold text-slate-900">Login ke sistem</h1>
-                <p class="mt-2 text-sm text-slate-500">Gunakan akun yang sudah terdaftar untuk mengakses dashboard sesuai
-                    role.</p>
+                <p class="text-xs font-bold uppercase tracking-[0.32em] text-brand-600">Masuk</p>
+                <h2 class="mt-2 text-2xl font-bold text-ink-900">Login ke sistem</h2>
+                <p class="mt-2 text-sm leading-6 text-ink-500">Gunakan akun yang sudah terdaftar untuk mengakses dashboard sesuai role.</p>
             </div>
 
             @if ($errors->any())
-                <div class="mb-4 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{{ $errors->first() }}</div>
+                <div class="mb-4 rounded-2xl bg-danger-50 px-4 py-3 text-sm font-semibold text-danger-600">{{ $errors->first() }}</div>
             @endif
 
-            <form method="POST" action="{{ route('login.post') }}" class="space-y-4">
+            <form method="POST" action="{{ route('login.post') }}" class="space-y-5">
                 @csrf
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Email</label>
-                    <input type="email" name="email"
-                        class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
-                        required />
-                </div>
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-slate-700">Password</label>
-                    <input type="password" name="password"
-                        class="w-full rounded-2xl border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100"
-                        required />
-                </div>
+
+                <x-form.input label="Email" name="email" type="email" required />
+                <x-form.input label="Password" name="password" type="password" required />
+
                 <div class="flex items-center justify-between gap-3 pt-2">
-                    <button
-                        class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Login</button>
-                    <a href="{{ route('register') }}" wire:navigate class="text-sm font-semibold text-sky-700 hover:text-sky-900">Buat
-                        akun</a>
+                    <x-ui.button type="submit">
+                        <x-icon name="solar:login-2-line-duotone" size="1rem" />
+                        Login
+                    </x-ui.button>
+                    <a href="{{ route('register') }}" wire:navigate class="text-sm font-bold text-brand-700 hover:text-brand-900">
+                        Buat akun
+                    </a>
                 </div>
             </form>
-        </div>
+        </x-ui.card>
     </div>
 @endsection

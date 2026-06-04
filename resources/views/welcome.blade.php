@@ -1,262 +1,204 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="space-y-24 py-6">
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 px-6 py-16 text-white shadow-xl sm:px-12 sm:py-20 md:px-16">
-        <!-- Decorative blobs -->
-        <div class="absolute -right-16 -top-16 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl"></div>
-        <div class="absolute -bottom-16 -left-16 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"></div>
-        
-        <div class="relative mx-auto max-w-3xl text-center">
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-sky-500/10 px-4 py-1.5 text-xs font-semibold text-sky-300 ring-1 ring-inset ring-sky-500/20">
-                <span class="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-                Prediksi Diabetes Berbasis AI & Machine Learning
-            </span>
-            <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl bg-gradient-to-r from-white via-slate-100 to-sky-200 bg-clip-text text-transparent">
-                Pantau Risiko Diabetes Sejak Dini
-            </h1>
-            <p class="mt-6 text-lg leading-relaxed text-slate-300">
-                DiaPredict membantu Anda memprediksi tingkat risiko diabetes secara instan menggunakan analisis cerdas. Terintegrasi dengan klinik terpercaya untuk tindak lanjut kesehatan Anda.
-            </p>
-            <div class="mt-10 flex flex-wrap justify-center gap-4">
-                @auth
-                    <a href="{{ route('prediction') }}" wire:navigate class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-400 hover:shadow-sky-500/20 active:scale-95">
-                        Mulai Prediksi
-                        <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                        </svg>
-                    </a>
-                    <a href="{{ route('dashboard') }}" wire:navigate class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95">
-                        Lihat Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('register') }}" wire:navigate class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-400 hover:shadow-sky-500/20 active:scale-95">
-                        Daftar Akun Gratis
-                        <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                        </svg>
-                    </a>
-                    <a href="{{ route('login') }}" wire:navigate class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-95">
-                        Masuk
-                    </a>
-                @endauth
-            </div>
-        </div>
-    </section>
+    <div class="space-y-16 pb-10">
+        <section
+            class="relative overflow-hidden rounded-[2rem] border border-brand-100 bg-white px-6 py-10 shadow-sm sm:px-10 lg:px-12">
+            <div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+                <div>
+                    <x-ui.badge variant="primary">
+                        <x-icon name="solar:pulse-line-duotone" size="1rem" />
+                        Prediksi Diabetes Berbasis AI
+                    </x-ui.badge>
 
-    <!-- Medical Parameters Section -->
-    <section class="space-y-12">
-        <div class="text-center max-w-2xl mx-auto">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Indikator Kesehatan yang Kami Analisis</h2>
-            <p class="mt-4 text-slate-600">Model cerdas kami mengkaji lima parameter utama untuk memprediksi tingkat probabilitas risiko diabetes Anda.</p>
-        </div>
+                    <h1 class="mt-6 max-w-3xl text-4xl font-bold tracking-tight text-ink-900 sm:text-5xl">
+                        DiaPredict
+                    </h1>
+                    <p class="mt-5 max-w-2xl text-base leading-7 text-ink-500 sm:text-lg">
+                        Pantau risiko diabetes sejak dini dengan alur prediksi yang sederhana, edukasi otomatis, dan
+                        dashboard yang mudah dipahami untuk pengguna, petugas klinik, serta admin.
+                    </p>
 
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            <!-- Glucose -->
-            <div class="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/50 transition-all hover:-translate-y-1 hover:shadow-md hover:ring-sky-500/20">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 text-sky-600 group-hover:bg-sky-500 group-hover:text-white transition-all">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3" />
-                    </svg>
-                </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">Glukosa</h3>
-                <p class="mt-2 text-xs text-slate-500 leading-relaxed">Konsentrasi glukosa plasma 2 jam dalam tes toleransi glukosa oral.</p>
-            </div>
-
-            <!-- Blood Pressure -->
-            <div class="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/50 transition-all hover:-translate-y-1 hover:shadow-md hover:ring-sky-500/20">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600 group-hover:bg-rose-500 group-hover:text-white transition-all">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                    </svg>
-                </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">Tekanan Darah</h3>
-                <p class="mt-2 text-xs text-slate-500 leading-relaxed">Tekanan darah diastolik (mmHg) mengukur kekuatan aliran darah saat jantung beristirahat.</p>
-            </div>
-
-            <!-- Insulin -->
-            <div class="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/50 transition-all hover:-translate-y-1 hover:shadow-md hover:ring-sky-500/20">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white transition-all">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">Insulin</h3>
-                <p class="mt-2 text-xs text-slate-500 leading-relaxed">Kadar insulin serum 2 jam (mu U/ml) membantu mendeteksi resistensi insulin.</p>
-            </div>
-
-            <!-- BMI -->
-            <div class="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/50 transition-all hover:-translate-y-1 hover:shadow-md hover:ring-sky-500/20">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-all">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-                    </svg>
-                </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">BMI</h3>
-                <p class="mt-2 text-xs text-slate-500 leading-relaxed">Indeks Massa Tubuh (berat badan dalam kg / tinggi badan kuadrat dalam meter).</p>
-            </div>
-
-            <!-- Age -->
-            <div class="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200/50 transition-all hover:-translate-y-1 hover:shadow-md hover:ring-sky-500/20">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 group-hover:bg-indigo-500 group-hover:text-white transition-all">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">Umur</h3>
-                <p class="mt-2 text-xs text-slate-500 leading-relaxed">Faktor usia mempengaruhi metabolisme tubuh dan tingkat kerentanan diabetes.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="rounded-3xl bg-slate-900/5 p-8 ring-1 ring-slate-900/10 sm:p-12">
-        <div class="mx-auto max-w-2xl text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900">Bagaimana DiaPredict Bekerja</h2>
-            <p class="mt-4 text-slate-600">Alur sederhana dan aman untuk mendeteksi serta mengelola risiko diabetes Anda.</p>
-        </div>
-
-        <div class="mt-12 grid gap-8 md:grid-cols-3">
-            <div class="relative flex flex-col items-center text-center">
-                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 font-bold text-white shadow-md ring-8 ring-sky-50">1</div>
-                <h3 class="mt-6 text-lg font-semibold text-slate-900">Masukkan Data Kesehatan</h3>
-                <p class="mt-2 text-sm text-slate-500">Isi form medis sederhana dengan parameter kesehatan yang Anda miliki secara mandiri.</p>
-            </div>
-
-            <div class="relative flex flex-col items-center text-center">
-                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 font-bold text-white shadow-md ring-8 ring-sky-50">2</div>
-                <h3 class="mt-6 text-lg font-semibold text-slate-900">Analisis Instan AI</h3>
-                <p class="mt-2 text-sm text-slate-500">Layanan cerdas kami akan menganalisis data Anda secara real-time untuk memperkirakan probabilitas risiko.</p>
-            </div>
-
-            <div class="relative flex flex-col items-center text-center">
-                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500 font-bold text-white shadow-md ring-8 ring-sky-50">3</div>
-                <h3 class="mt-6 text-lg font-semibold text-slate-900">Konsultasikan & Edukasi</h3>
-                <p class="mt-2 text-sm text-slate-500">Hubungkan hasil prediksi ke klinik mitra dan pelajari tips pencegahan melalui artikel edukasi terpercaya.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Latest Articles Section -->
-    <section class="space-y-12">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Artikel Kesehatan Terbaru</h2>
-                <p class="mt-2 text-slate-600">Pelajari tips dan informasi tepercaya dari konten edukasi kesehatan global.</p>
-            </div>
-            <a href="{{ route('articles.index') }}" wire:navigate class="group inline-flex items-center gap-1 text-sm font-semibold text-sky-600 transition-all hover:text-sky-500">
-                Lihat Semua Artikel
-                <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-            </a>
-        </div>
-
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            @forelse ($articles as $article)
-                <article class="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/50 transition-all hover:-translate-y-1 hover:shadow-md">
-                    <div class="aspect-video w-full bg-slate-100 overflow-hidden relative">
-                        @if ($article->thumbnail)
-                            <img src="{{ Storage::url($article->thumbnail) }}" alt="{{ $article->title }}" class="h-full w-full object-cover">
+                    <div class="mt-8 flex flex-wrap gap-3">
+                        @auth
+                            <a href="{{ route('prediction') }}" wire:navigate>
+                                <x-ui.button size="lg">
+                                    <x-icon name="solar:play-circle-line-duotone" size="1.15rem" />
+                                    Mulai Prediksi
+                                </x-ui.button>
+                            </a>
+                            <a href="{{ route('dashboard') }}" wire:navigate>
+                                <x-ui.button variant="light" size="lg">
+                                    <x-icon name="solar:chart-square-line-duotone" size="1.15rem" />
+                                    Lihat Dashboard
+                                </x-ui.button>
+                            </a>
                         @else
-                            <div class="flex h-full w-full items-center justify-center bg-sky-50 text-sky-400">
-                                <svg class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                                </svg>
+                            <a href="{{ route('register') }}" wire:navigate>
+                                <x-ui.button size="lg">
+                                    <x-icon name="solar:user-plus-rounded-line-duotone" size="1.15rem" />
+                                    Daftar Gratis
+                                </x-ui.button>
+                            </a>
+                            <a href="{{ route('login') }}" wire:navigate>
+                                <x-ui.button variant="light" size="lg">
+                                    <x-icon name="solar:login-2-line-duotone" size="1.15rem" />
+                                    Masuk
+                                </x-ui.button>
+                            </a>
+                        @endauth
+                    </div>
+                </div>
+
+                <div class="rounded-[2rem] border border-ink-100 bg-ink-50 p-5">
+                    <div class="grid gap-4">
+                        <div class="rounded-3xl bg-white p-5 shadow-sm">
+                            <div class="flex items-center justify-between gap-4">
+                                <div>
+                                    <p class="text-sm font-semibold text-ink-500">Hasil Prediksi</p>
+                                    <p class="mt-2 text-3xl font-bold text-brand-700">Prediabetes</p>
+                                </div>
+                                <div class="rounded-2xl bg-alert-50 p-3 text-alert-600">
+                                    <x-icon name="solar:danger-triangle-line-duotone" size="1.8rem" />
+                                </div>
                             </div>
-                        @endif
-                        <span class="absolute right-3 top-3 rounded-full bg-white/90 backdrop-blur px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm">
-                            DiaPredict
-                        </span>
-                    </div>
-                    <div class="flex flex-1 flex-col p-6">
-                        <div class="text-xs text-slate-400">
-                            {{ $article->created_at->translatedFormat('d M Y') }}
+                            <div class="mt-5 h-3 overflow-hidden rounded-full bg-ink-100">
+                                <div class="h-full w-7/12 rounded-full bg-brand-500"></div>
+                            </div>
+                            <p class="mt-3 text-sm text-ink-500">Edukasi otomatis membantu pengguna memahami langkah
+                                berikutnya.</p>
                         </div>
-                        <h3 class="mt-2 text-lg font-semibold leading-snug text-slate-900 group-hover:text-sky-600">
-                            {{ $article->title }}
-                        </h3>
-                        <p class="mt-3 text-sm text-slate-500 line-clamp-3">
-                            {{ Str::limit(strip_tags($article->content), 120) }}
-                        </p>
-                    </div>
-                </article>
-            @empty
-                <!-- Fallback static articles to wow the user (premium content representation) -->
-                <article class="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/50">
-                    <div class="aspect-video w-full bg-gradient-to-br from-sky-400 to-indigo-500 flex items-center justify-center p-6 text-white text-center">
-                        <h4 class="text-lg font-bold">Gaya Hidup Sehat & Pencegahan Diabetes</h4>
-                    </div>
-                    <div class="flex flex-1 flex-col p-6">
-                        <div class="text-xs text-slate-400">01 Jun 2026</div>
-                        <h3 class="mt-2 text-lg font-semibold leading-snug text-slate-900">
-                            5 Kebiasaan Pagi Hari untuk Menjaga Kadar Gula Darah Stabil
-                        </h3>
-                        <p class="mt-3 text-sm text-slate-500 leading-relaxed">
-                            Pelajari rutinitas sederhana mulai dari pilihan sarapan kaya serat hingga hidrasi optimal untuk menghindari lonjakan glukosa mendadak.
-                        </p>
-                    </div>
-                </article>
 
-                <article class="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/50">
-                    <div class="aspect-video w-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center p-6 text-white text-center">
-                        <h4 class="text-lg font-bold">Panduan Nutrisi Medis</h4>
+                        <div class="grid gap-4 sm:grid-cols-3">
+                            <div class="rounded-3xl bg-white p-4 shadow-sm">
+                                <x-icon name="solar:dropper-3-line-duotone" class="text-brand-500" size="1.4rem" />
+                                <p class="mt-3 text-xs font-semibold text-ink-500">Glukosa</p>
+                                <p class="text-xl font-bold text-ink-900">120</p>
+                            </div>
+                            <div class="rounded-3xl bg-white p-4 shadow-sm">
+                                <x-icon name="solar:heart-pulse-line-duotone" class="text-health-600" size="1.4rem" />
+                                <p class="mt-3 text-xs font-semibold text-ink-500">BMI</p>
+                                <p class="text-xl font-bold text-ink-900">26.4</p>
+                            </div>
+                            <div class="rounded-3xl bg-white p-4 shadow-sm">
+                                <x-icon name="solar:user-id-line-duotone" class="text-danger-500" size="1.4rem" />
+                                <p class="mt-3 text-xs font-semibold text-ink-500">Usia</p>
+                                <p class="text-xl font-bold text-ink-900">42</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex flex-1 flex-col p-6">
-                        <div class="text-xs text-slate-400">30 Mei 2026</div>
-                        <h3 class="mt-2 text-lg font-semibold leading-snug text-slate-900">
-                            Memahami Indeks Glikemik Makanan untuk Penderita Pradiabetes
-                        </h3>
-                        <p class="mt-3 text-sm text-slate-500 leading-relaxed">
-                            Mengenal perbedaan indeks glikemik rendah dan tinggi serta cara mengatur porsi makan karbohidrat kompleks demi menjaga kestabilan energi.
-                        </p>
-                    </div>
-                </article>
+                </div>
+            </div>
+        </section>
 
-                <article class="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/50">
-                    <div class="aspect-video w-full bg-gradient-to-br from-rose-400 to-amber-500 flex items-center justify-center p-6 text-white text-center">
-                        <h4 class="text-lg font-bold">Aktivitas Fisik & Olahraga</h4>
+        <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            @foreach ([['icon' => 'solar:dropper-3-line-duotone', 'title' => 'Glukosa', 'copy' => 'Parameter utama kadar gula darah.'], ['icon' => 'solar:heart-pulse-line-duotone', 'title' => 'Tekanan Darah', 'copy' => 'Kondisi tekanan darah diastolik.'], ['icon' => 'solar:stethoscope-line-duotone', 'title' => 'Insulin', 'copy' => 'Indikasi sensitivitas insulin.'], ['icon' => 'solar:scale-line-duotone', 'title' => 'BMI', 'copy' => 'Indeks massa tubuh pengguna.'], ['icon' => 'solar:user-id-line-duotone', 'title' => 'Usia', 'copy' => 'Faktor risiko berdasarkan umur.']] as $item)
+                <x-ui.card hover>
+                    <div class="rounded-2xl bg-brand-50 p-3 text-brand-600 w-fit">
+                        <x-icon :name="$item['icon']" size="1.35rem" />
                     </div>
-                    <div class="flex flex-1 flex-col p-6">
-                        <div class="text-xs text-slate-400">28 Mei 2026</div>
-                        <h3 class="mt-2 text-lg font-semibold leading-snug text-slate-900">
-                            Mengapa Latihan Kekuatan Otot Sangat Penting bagi Sensitivitas Insulin?
-                        </h3>
-                        <p class="mt-3 text-sm text-slate-500 leading-relaxed">
-                            Latihan beban ringan membantu otot menyerap glukosa tanpa bergantung sepenuhnya pada insulin. Simak tips memulai olahraga bagi pemula.
-                        </p>
-                    </div>
-                </article>
-            @endforelse
-        </div>
-    </section>
+                    <h3 class="mt-4 text-base font-bold text-ink-900">{{ $item['title'] }}</h3>
+                    <p class="mt-2 text-sm leading-6 text-ink-500">{{ $item['copy'] }}</p>
+                </x-ui.card>
+            @endforeach
+        </section>
 
-    <!-- Bottom CTA Section -->
-    <section class="rounded-3xl bg-gradient-to-br from-indigo-900 to-slate-900 px-6 py-12 text-center text-white shadow-lg sm:px-12 sm:py-16">
-        <div class="mx-auto max-w-2xl">
-            <h2 class="text-3xl font-bold tracking-tight">Siap Memulai Langkah Hidup Sehat?</h2>
-            <p class="mt-4 text-slate-300 leading-relaxed">
-                Bergabunglah bersama ribuan pengguna lainnya yang telah mendeteksi secara dini dan mengambil langkah preventif untuk masa depan yang lebih sehat.
+        <section class="grid gap-6 lg:grid-cols-3">
+            @foreach ([['icon' => 'solar:clipboard-list-line-duotone', 'title' => 'Masukkan Data', 'copy' => 'Isi parameter kesehatan secara mandiri atau dibantu petugas klinik.'], ['icon' => 'solar:cpu-bolt-line-duotone', 'title' => 'Analisis Instan', 'copy' => 'Sistem mengirim data ke layanan prediksi dan menyimpan audit trail.'], ['icon' => 'solar:notebook-bookmark-line-duotone', 'title' => 'Edukasi Otomatis', 'copy' => 'Konten edukasi tampil dinamis sesuai hasil normal, prediabetes, atau diabetes.']] as $step)
+                <x-ui.card hover>
+                    <div class="flex items-start gap-4">
+                        <div class="rounded-2xl bg-brand-50 p-3 text-brand-600">
+                            <x-icon :name="$step['icon']" size="1.5rem" />
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-ink-900">{{ $step['title'] }}</h3>
+                            <p class="mt-2 text-sm leading-6 text-ink-500">{{ $step['copy'] }}</p>
+                        </div>
+                    </div>
+                </x-ui.card>
+            @endforeach
+        </section>
+
+        <section class="space-y-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.32em] text-brand-600">Artikel Kesehatan</p>
+                    <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink-900">Edukasi terbaru</h2>
+                    <p class="mt-2 text-sm leading-6 text-ink-500">Konten kesehatan global yang mudah dibaca.</p>
+                </div>
+                <a href="{{ route('articles.index') }}" wire:navigate>
+                    <x-ui.button variant="soft">
+                        Lihat Semua Artikel
+                        <x-icon name="solar:arrow-right-line-duotone" size="1rem" />
+                    </x-ui.button>
+                </a>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-3">
+                @forelse ($articles as $article)
+                    <x-ui.card hover padding="p-0" class="overflow-hidden">
+                        <a href="{{ route('articles.show', $article) }}" wire:navigate class="block">
+                            <div class="aspect-video bg-brand-50">
+                                @if ($article->thumbnail)
+                                    <img src="{{ Storage::url($article->thumbnail) }}" alt="{{ $article->title }}"
+                                        class="h-full w-full object-cover">
+                                @else
+                                    <div class="flex h-full w-full items-center justify-center text-brand-500">
+                                        <x-icon name="solar:document-text-line-duotone" size="3rem" />
+                                    </div>
+                                @endif
+                            </div>
+                        </a>
+                        <div class="p-6">
+                            <x-ui.badge variant="primary">DiaPredict</x-ui.badge>
+                            <h3 class="mt-3 text-lg font-bold leading-snug text-ink-900">
+                                <a href="{{ route('articles.show', $article) }}" wire:navigate
+                                    class="transition hover:text-brand-700">
+                                    {{ $article->title }}
+                                </a>
+                            </h3>
+                            <p class="mt-3 line-clamp-3 text-sm leading-6 text-ink-500">
+                                {{ Str::limit(strip_tags($article->content), 120) }}
+                            </p>
+                            <a href="{{ route('articles.show', $article) }}" wire:navigate
+                                class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand-700">
+                                Baca detail
+                                <x-icon name="solar:arrow-right-line-duotone" size="1rem" />
+                            </a>
+                        </div>
+                    </x-ui.card>
+                @empty
+                    <div class="md:col-span-3">
+                        <x-ui.empty-state icon="solar:document-text-line-duotone" title="Belum ada artikel published."
+                            description="Artikel terbaru akan tampil di sini setelah admin mempublikasikannya." />
+                    </div>
+                @endforelse
+            </div>
+        </section>
+
+        <section class="rounded-[2rem] border border-brand-100 bg-brand-50 p-8 text-center sm:p-10">
+            <h2 class="text-2xl font-bold tracking-tight text-ink-900">Siap memulai langkah hidup sehat?</h2>
+            <p class="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink-600">
+                DiaPredict bersifat edukatif dan prediktif. Konsultasikan hasil dengan tenaga kesehatan untuk diagnosis
+                resmi.
             </p>
-            <div class="mt-8 flex justify-center">
+            <div class="mt-6">
                 @auth
-                    <a href="{{ route('prediction') }}" wire:navigate class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-950 shadow-sm transition hover:bg-slate-100 active:scale-95">
-                        Mulai Prediksi Sekarang
+                    <a href="{{ route('prediction') }}" wire:navigate>
+                        <x-ui.button>
+                            Mulai Prediksi Sekarang
+                            <x-icon name="solar:arrow-right-line-duotone" size="1rem" />
+                        </x-ui.button>
                     </a>
                 @else
-                    <a href="{{ route('register') }}" wire:navigate class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-950 shadow-sm transition hover:bg-slate-100 active:scale-95">
-                        Daftar Gratis Sekarang
+                    <a href="{{ route('register') }}" wire:navigate>
+                        <x-ui.button>
+                            Daftar Gratis Sekarang
+                            <x-icon name="solar:arrow-right-line-duotone" size="1rem" />
+                        </x-ui.button>
                     </a>
                 @endauth
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-200/80 pt-8 text-center text-xs text-slate-500">
-        <p>&copy; {{ date('Y') }} {{ config('app.name', 'DiaPredict') }}. Hak Cipta Dilindungi Undang-Undang.</p>
-        <p class="mt-2">Layanan ini bersifat edukatif dan prediktif. Konsultasikan dengan tenaga kesehatan berlisensi untuk diagnosis medis resmi.</p>
-    </footer>
-</div>
+        </section>
+    </div>
 @endsection

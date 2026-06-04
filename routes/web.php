@@ -23,8 +23,28 @@ Route::middleware(['auth'])->group(function () {
     })->name('prediction');
 
     Route::get('/articles', function () {
-        return view('pages.articles');
+        if (auth()->user()->role === 'admin') {
+            return view('pages.articles');
+        }
+
+        $articles = Article::where('status', 'published')
+            ->latest()
+            ->paginate(9);
+
+        return view('pages.article-list', compact('articles'));
     })->name('articles.index');
+
+    Route::get('/articles/{article:slug}', function (Article $article) {
+        abort_unless(auth()->user()->can('view', $article), 403);
+
+        $relatedArticles = Article::where('status', 'published')
+            ->whereKeyNot($article->getKey())
+            ->latest()
+            ->limit(3)
+            ->get();
+
+        return view('pages.article-show', compact('article', 'relatedArticles'));
+    })->name('articles.show');
 
     Route::get('/clinics', function () {
         abort_unless(auth()->user()->role === 'admin', 403);

@@ -18,4 +18,9 @@ class Article extends Model
         'thumbnail',
         'status',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

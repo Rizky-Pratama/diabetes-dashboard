@@ -1,90 +1,110 @@
-<div class="space-y-6">
-    <section class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-                <p class="text-sm uppercase tracking-[0.25em] text-slate-500">Dashboard Pengguna</p>
-                <h1 class="text-2xl font-semibold text-slate-900">Halo, {{ auth()->user()->name }}</h1>
-                <p class="mt-1 text-sm text-slate-500">Lihat hasil prediksi terakhir, riwayat pribadi, dan artikel
-                    edukasi.</p>
-            </div>
-
-            <div class="flex flex-wrap gap-3">
-                <a href="{{ route('prediction') }}" wire:navigate
-                    class="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Mulai
-                    Prediksi</a>
-                <a href="#riwayat"
-                    class="rounded-full bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">Lihat
-                    Riwayat</a>
-            </div>
-        </div>
-    </section>
+<div class="space-y-8">
+    <x-ui.page-header eyebrow="Dashboard Pengguna" :title="'Halo, ' . auth()->user()->name"
+        description="Lihat hasil prediksi terakhir, riwayat pribadi, dan artikel edukasi kesehatan." class="mb-0">
+        <x-slot:action>
+            <a href="{{ route('prediction') }}" wire:navigate>
+                <x-ui.button>
+                    <x-icon name="solar:pulse-line-duotone" size="1rem" />
+                    Mulai Prediksi
+                </x-ui.button>
+            </a>
+        </x-slot:action>
+    </x-ui.page-header>
 
     <section class="grid gap-6 xl:grid-cols-3">
-        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70 xl:col-span-2">
-            <h2 class="text-lg font-semibold text-slate-900">Hasil prediksi terakhir</h2>
+        <x-ui.card class="xl:col-span-2">
+            <h2 class="text-lg font-bold text-ink-900">Hasil prediksi terakhir</h2>
+
             @if ($last)
-                <div class="mt-4 rounded-2xl border border-slate-200 p-5">
+                <div class="mt-4 rounded-3xl border border-ink-100 bg-ink-50 p-5">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <div class="text-sm text-slate-500">Hasil Prediksi</div>
-                            <div class="text-2xl font-semibold text-slate-900">{{ $last->result_label }}</div>
-                            <div class="mt-1 text-sm text-slate-500">{{ $last->created_at->format('d M Y, H:i') }}</div>
+                            <p class="text-sm font-semibold text-ink-500">Hasil Prediksi</p>
+                            <p class="mt-2 text-3xl font-bold text-ink-900">{{ $last->result_label }}</p>
+                            <p class="mt-1 text-sm text-ink-500">{{ $last->created_at->format('d M Y, H:i') }}</p>
                         </div>
-                        <div class="rounded-2xl {{ $last->result_badge_classes }} px-4 py-3 text-center">
-                            <div class="text-xs font-semibold uppercase tracking-[0.2em]">Kemungkinan Risiko</div>
-                            <div class="text-3xl font-semibold">
-                                {{ number_format((float) $last->probability * 100, 0) }}%</div>
+                        <div class="rounded-3xl bg-white px-5 py-4 text-center shadow-sm">
+                            <p class="text-xs font-bold uppercase tracking-[0.22em] text-ink-400">Probabilitas</p>
+                            <p class="mt-2 text-4xl font-bold text-brand-600">
+                                {{ number_format((float) $last->probability * 100, 0) }}%
+                            </p>
                         </div>
                     </div>
+
                     @if ($education)
-                        <div class="mt-5 border-t border-slate-200 pt-4">
-                            <div class="text-sm font-semibold text-slate-900">{{ $education->title }}</div>
-                            <div class="mt-2 text-sm leading-6 text-slate-600">{!! nl2br(e(strip_tags($education->content))) !!}</div>
+                        <div class="mt-5 border-t border-ink-100 pt-4">
+                            <x-ui.badge :variant="match ($last->result) {
+                                'diabetes' => 'danger',
+                                'prediabetes' => 'warning',
+                                default => 'success',
+                            }">
+                                Edukasi {{ $last->result_label }}
+                            </x-ui.badge>
+                            <div class="mt-3 text-sm font-bold text-ink-900">{{ $education->title }}</div>
+                            <x-content.quill-viewer :content="$education->content" class="mt-3" />
                         </div>
                     @endif
                 </div>
             @else
-                <div class="mt-4 rounded-2xl border border-dashed border-slate-300 p-6 text-sm text-slate-500">Belum ada
-                    prediksi. Tekan tombol Mulai Prediksi untuk memulai.</div>
+                <x-ui.empty-state class="mt-4" icon="solar:pulse-line-duotone" title="Belum ada prediksi."
+                    description="Tekan tombol Mulai Prediksi untuk memulai pemeriksaan mandiri." />
             @endif
-        </div>
+        </x-ui.card>
 
-        <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
-            <h2 class="text-lg font-semibold text-slate-900">Artikel edukasi</h2>
+        <x-ui.card>
+            <h2 class="text-lg font-bold text-ink-900">Artikel edukasi</h2>
             <div class="mt-4 space-y-3">
-                @foreach ($articles as $article)
-                    <article class="rounded-2xl border border-slate-200 p-4">
-                        <div class="text-sm font-semibold text-slate-900">{{ $article->title }}</div>
-                        <p class="mt-2 line-clamp-3 text-sm text-slate-500">
+                @forelse ($articles as $article)
+                    <article class="rounded-2xl border border-ink-100 p-4">
+                        <a href="{{ route('articles.show', $article) }}" wire:navigate
+                            class="text-sm font-bold text-ink-900 transition hover:text-brand-700">
+                            {{ $article->title }}
+                        </a>
+                        <p class="mt-2 line-clamp-3 text-sm leading-6 text-ink-500">
                             {{ \Illuminate\Support\Str::limit(strip_tags($article->content), 120) }}</p>
+                        <a href="{{ route('articles.show', $article) }}" wire:navigate
+                            class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-brand-700">
+                            Baca detail
+                            <x-icon name="solar:arrow-right-line-duotone" size="0.9rem" />
+                        </a>
                     </article>
-                @endforeach
+                @empty
+                    <p class="text-sm text-ink-500">Belum ada artikel published.</p>
+                @endforelse
             </div>
-        </div>
+        </x-ui.card>
     </section>
 
-    <section id="riwayat" class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/70">
+    <x-ui.card>
         <div class="flex items-center justify-between gap-3">
             <div>
-                <h2 class="text-lg font-semibold text-slate-900">Riwayat prediksi pribadi</h2>
-                <p class="text-sm text-slate-500">Card sederhana agar mudah dibaca di mobile.</p>
+                <h2 class="text-lg font-bold text-ink-900">Riwayat prediksi pribadi</h2>
+                <p class="text-sm text-ink-500">Riwayat hanya menampilkan prediksi milik akun Anda.</p>
             </div>
-            <span
-                class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{{ $histories->count() }}
-                data</span>
+            <x-ui.badge variant="neutral">{{ $histories->count() }} data</x-ui.badge>
         </div>
 
         <div class="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-            @foreach ($histories as $history)
-                <div class="rounded-2xl border border-slate-200 p-4">
-                    <div class="text-sm font-semibold text-slate-900">{{ $history->created_at->format('d M Y, H:i') }}
+            @forelse ($histories as $history)
+                <div class="rounded-2xl border border-ink-100 p-4">
+                    <div class="text-sm font-bold text-ink-900">{{ $history->created_at->format('d M Y, H:i') }}</div>
+                    <div class="mt-2">
+                        <x-ui.badge :variant="match ($history->result) {
+                            'diabetes' => 'danger',
+                            'prediabetes' => 'warning',
+                            default => 'success',
+                        }">
+                            {{ $history->result_label }}
+                        </x-ui.badge>
                     </div>
-                    <div class="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $history->result_badge_classes }}">
-                        {{ $history->result_label }}</div>
-                    <div class="mt-3 text-sm text-slate-500">Kemungkinan Risiko:
+                    <div class="mt-3 text-sm text-ink-500">Probabilitas:
                         {{ number_format((float) $history->probability * 100, 0) }}%</div>
                 </div>
-            @endforeach
+            @empty
+                <div class="md:col-span-2 xl:col-span-3">
+                    <x-ui.empty-state title="Riwayat pribadi masih kosong." icon="solar:history-line-duotone" />
+                </div>
+            @endforelse
         </div>
-    </section>
+    </x-ui.card>
 </div>

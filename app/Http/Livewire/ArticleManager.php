@@ -37,9 +37,10 @@ class ArticleManager extends Component
         'thumbnailFile' => 'nullable|image|max:2048',
     ];
 
-    public function mount()
+    public function mount(): void
     {
-        // default values
+        abort_unless(auth()->user()?->role === 'admin', 403);
+
         $this->status = 'draft';
     }
 

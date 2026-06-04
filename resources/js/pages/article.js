@@ -36,4 +36,37 @@ document.addEventListener("alpine:init", () => {
             });
         },
     }));
+
+    Alpine.data("quillViewer", (content) => ({
+        quill: null,
+        content,
+
+        init() {
+            this.quill = new Quill(this.$refs.viewer, {
+                theme: "snow",
+                readOnly: true,
+                modules: {
+                    toolbar: null,
+                },
+            });
+
+            this.setContent(this.content);
+
+            this.$watch("content", (value) => {
+                this.setContent(value);
+            });
+        },
+
+        setContent(value) {
+            const content = value || "";
+
+            if (this.quill.root.innerHTML === content) {
+                return;
+            }
+
+            this.quill.setContents([]);
+            this.quill.clipboard.dangerouslyPasteHTML(content);
+            this.quill.enable(false);
+        },
+    }));
 });

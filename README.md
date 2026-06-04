@@ -6,10 +6,13 @@
 
 ### Sistem Prediksi Risiko Diabetes Berbasis Website Menggunakan Logistic Regression
 
-![Laravel](https://img.shields.io/badge/Laravel-13-red)
-![PHP](https://img.shields.io/badge/PHP-8.3-blue)
-![Python](https://img.shields.io/badge/Python-3.12-yellow)
-![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
+![Laravel](https://img.shields.io/badge/Laravel-13-red?logo=laravel)
+![Livewire](https://img.shields.io/badge/Livewire-4-purple?logo=livewire)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-blue?logo=tailwindcss)
+![PHP](https://img.shields.io/badge/PHP-8.3-blue?logo=php)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?logo=javascript)
+![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange?logo=mysql)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 A web-based diabetes risk prediction system that helps users identify potential diabetes risks early using a Logistic Regression machine learning model. The system also provides educational content and prediction history to support public health awareness.
@@ -102,19 +105,19 @@ The prediction engine uses:
 
 ### Input Features
 
-| Feature | Description |
-|----------|------------|
-| Glucose | Blood glucose level |
-| BloodPressure | Blood pressure |
-| Insulin | Insulin level |
-| BMI | Body Mass Index |
-| Age | Age |
+| Feature       | Description         |
+| ------------- | ------------------- |
+| Glucose       | Blood glucose level |
+| BloodPressure | Blood pressure      |
+| Insulin       | Insulin level       |
+| BMI           | Body Mass Index     |
+| Age           | Age                 |
 
 ### Output
 
-| Result | Description |
-|----------|------------|
-| Low Risk | Lower possibility of diabetes |
+| Result    | Description                    |
+| --------- | ------------------------------ |
+| Low Risk  | Lower possibility of diabetes  |
 | High Risk | Higher possibility of diabetes |
 
 ---
@@ -140,35 +143,6 @@ The prediction engine uses:
 - NumPy
 - Scikit-Learn
 - Joblib
-
----
-
-## 📂 Project Structure
-
-```text
-diabpredict/
-│
-├── app/
-├── bootstrap/
-├── config/
-├── database/
-├── public/
-│   └── logo.png
-├── resources/
-│   ├── views/
-│   ├── css/
-│   └── js/
-├── routes/
-├── storage/
-│
-├── python-api/
-│   ├── model/
-│   ├── training/
-│   ├── app.py
-│   └── requirements.txt
-│
-└── README.md
-```
 
 ---
 
@@ -231,100 +205,19 @@ php artisan serve
 
 ---
 
-## 🤖 Python API Setup
-
-Navigate to Python service:
-
-```bash
-cd python-api
-```
-
-Create virtual environment:
-
-```bash
-python -m venv venv
-```
-
-Activate environment:
-
-```bash
-venv\Scripts\activate
-```
-
-Install requirements:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run API:
-
-```bash
-python app.py
-```
-
----
-
-## 📊 Dataset
-
-The machine learning model was trained using diabetes-related health indicators including:
-
-- Glucose
-- Blood Pressure
-- Insulin
-- BMI
-- Age
-
-Dataset source:
-
-- Pima Indians Diabetes Dataset
-- Additional clinical data (if available)
-
----
-
-## 🔐 Security
-
-- CSRF Protection
-- Input Validation
-- Authentication & Authorization
-- Password Hashing
-- Rate Limiting
-
----
-
-## 🚀 Future Improvements
-
-- Multi-class prediction (Normal, Prediabetes, Diabetes)
-- Model comparison dashboard
-- Explainable AI (XAI)
-- PDF report generation
-- Mobile application integration
-
----
-
-<!-- ## 📸 Screenshots
+## 📸 Screenshots
 
 ### Landing Page
 
-> Add screenshot here
+<img src="public/ss-home.png" alt="Landing Page" width="600">
 
 ### Prediction Page
 
-> Add screenshot here
+<img src="public/ss-predict.png" alt="Prediction Page" width="600">
 
 ### Dashboard
 
-> Add screenshot here
-
---- -->
-
-## 👨‍🎓 Author
-
-**Muhammad Rizky Pratama**
-
-Informatics Engineering Student
-
-Universitas Indraprasta PGRI
+<img src="public/ss-dashboard.png" alt="Dashboard" width="600">
 
 ---
 

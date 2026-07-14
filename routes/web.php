@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ReportController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,15 @@ Route::middleware(['auth'])->group(function () {
 
         return view('pages.education');
     })->name('education.index');
+
+    // ─── Reports ───
+    Route::prefix('report')->name('report.')->group(function () {
+        Route::get('/prediction/{prediction}', [ReportController::class, 'predictionSingle'])->name('prediction.single');
+        Route::get('/prediction-history', [ReportController::class, 'predictionHistory'])->name('prediction.history');
+        Route::get('/prediction-summary', [ReportController::class, 'predictionSummary'])->name('prediction.summary');
+        Route::get('/users', [ReportController::class, 'users'])->name('users');
+        Route::get('/clinics', [ReportController::class, 'clinics'])->name('clinics');
+    });
 });
 
 // Auth routes (simple controllers)

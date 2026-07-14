@@ -3,7 +3,15 @@
         description="Admin dapat menambah petugas klinik, mengatur role, dan menghubungkan pengguna dengan klinik."
         class="mb-0">
         <x-slot:action>
-            <x-ui.badge variant="primary">{{ $users->total() }} pengguna</x-ui.badge>
+            <div class="flex flex-wrap items-center gap-3">
+                <x-ui.badge variant="primary">{{ $users->total() }} pengguna</x-ui.badge>
+                <a href="{{ route('report.users') }}" target="_blank">
+                    <x-ui.button variant="secondary">
+                        <x-icon name="solar:file-download-line-duotone" size="1rem" />
+                        Ekspor PDF
+                    </x-ui.button>
+                </a>
+            </div>
         </x-slot:action>
     </x-ui.page-header>
 

@@ -3,7 +3,15 @@
         description="Tambah, ubah, atau hapus klinik dengan tampilan form yang ringkas dan tabel yang mudah dipindai."
         class="mb-0">
         <x-slot:action>
-            <x-ui.badge variant="primary">{{ $clinics->total() }} klinik</x-ui.badge>
+            <div class="flex flex-wrap items-center gap-3">
+                <x-ui.badge variant="primary">{{ $clinics->total() }} klinik</x-ui.badge>
+                <a href="{{ route('report.clinics') }}" target="_blank">
+                    <x-ui.button variant="secondary">
+                        <x-icon name="solar:file-download-line-duotone" size="1rem" />
+                        Ekspor PDF
+                    </x-ui.button>
+                </a>
+            </div>
         </x-slot:action>
     </x-ui.page-header>
 

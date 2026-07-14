@@ -126,7 +126,7 @@
                         </div>
                         <div class="mt-4">
                             <div
-                                class="relative h-2 rounded-full bg-gradient-to-r from-alert-300 via-health-400 to-danger-400">
+                                class="relative h-2 rounded-full bg-linear-to-r from-alert-300 via-health-400 to-danger-400">
                                 <span class="absolute -top-1 h-4 w-1.5 rounded-full bg-ink-900 shadow-sm"
                                     style="left: {{ $this->bmiCategory['marker'] }}"></span>
                             </div>
@@ -173,11 +173,18 @@
                     {{ $histories->total() }} rekam prediksi, termasuk semua kolom utama dari database.
                 </p>
             </div>
-            <x-ui.badge variant="neutral">{{ $histories->total() }} data</x-ui.badge>
+            <div class="flex flex-wrap items-center gap-2">
+                <x-ui.badge variant="neutral">{{ $histories->total() }} data</x-ui.badge>
+                <a href="{{ route('report.prediction.history') }}" target="_blank"
+                    class="inline-flex items-center gap-2 rounded-full bg-ink-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-ink-800">
+                    <iconify-icon icon="solar:file-download-line-duotone" width="14"></iconify-icon>
+                    Ekspor Riwayat PDF
+                </a>
+            </div>
         </div>
 
         <div class="mt-5 hidden overflow-x-auto rounded-2xl border border-ink-100 md:block">
-            <table class="w-full min-w-[72rem] divide-y divide-ink-100 text-sm">
+            <table class="w-full min-w-6xl divide-y divide-ink-100 text-sm">
                 <colgroup>
                     <col class="w-[14%]">
                     <col class="w-[24%]">
@@ -275,6 +282,13 @@
                                         Raw:
                                         {{ filled($history->probability) ? number_format((float) $history->probability, 4) : '-' }}
                                     </div>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="{{ route('report.prediction.single', $history) }}" target="_blank"
+                                        class="inline-flex items-center gap-1.5 rounded-full bg-ink-50 px-3 py-1.5 text-xs font-semibold text-ink-700 ring-1 ring-ink-200 transition hover:bg-ink-100">
+                                        <iconify-icon icon="solar:printer-line-duotone" width="13"></iconify-icon>
+                                        Cetak PDF
+                                    </a>
                                 </div>
                             </td>
                         </tr>

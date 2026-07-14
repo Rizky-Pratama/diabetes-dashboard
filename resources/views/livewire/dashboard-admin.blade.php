@@ -16,6 +16,12 @@
                         Pengguna
                     </x-ui.button>
                 </a>
+                <a href="{{ route('report.prediction.summary') }}" target="_blank">
+                    <x-ui.button variant="secondary">
+                        <x-icon name="solar:file-download-line-duotone" size="1rem" />
+                        Ekspor Rekap PDF
+                    </x-ui.button>
+                </a>
             </div>
         </x-slot:action>
     </x-ui.page-header>
